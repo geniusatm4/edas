@@ -3,15 +3,11 @@ package com.zx.edas.common.bo;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "cm_device")
 public class CMDevice {
-
-    public static final double MIN_LAT = -90;
-    public static final double MAX_LAT = 90;
-    public static final double MIN_LNG = -180;
-    public static final double MAX_LNG = 180;
 
     @Id
     private String id;
@@ -22,6 +18,7 @@ public class CMDevice {
     private String dt;
     private String des;
     private String geoHash;
+    private List<CMShot> trajectory;
 
     public CMDevice() {
     }
@@ -88,5 +85,13 @@ public class CMDevice {
 
     public void setGeoHash(String geoHash) {
         this.geoHash = geoHash;
+    }
+
+    public List<CMShot> getTrajectory() {
+        return trajectory;
+    }
+
+    public void setTrajectory(List<CMShot> trajectory) {
+        this.trajectory = trajectory;
     }
 }
