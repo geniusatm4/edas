@@ -1,6 +1,5 @@
 package com.zx.edas.common;
 
-import com.zx.edas.common.bo.CMDevice;
 import com.zx.edas.common.dao.CMDeviceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 @Component
 public class DeviceUtils {
@@ -17,9 +15,9 @@ public class DeviceUtils {
      * 1 2500km;2 630km;3 78km;4 30km
      * 5 2.4km; 6 610m; 7 76m; 8 19m
      */
-    private int hashLength = 8; //经纬度转化为geohash长度
-    private int latLength = 20; //纬度转化为二进制长度
-    private int lngLength = 20; //经度转化为二进制长度
+    private static int hashLength = 8; //经纬度转化为geohash长度
+    private static int latLength = 20; //纬度转化为二进制长度
+    private static int lngLength = 20; //经度转化为二进制长度
 
     public static final double MINLAT = -90;
     public static final double MAXLAT = 90;
@@ -70,7 +68,7 @@ public class DeviceUtils {
      * @Author:lulei
      * @Description: 获取经纬度的base32字符串
      */
-    private String getGeoHashBase32(double lat, double lng) {
+    public static String getGeoHashBase32(double lat, double lng) {
         boolean[] bools = getGeoBinary(lat, lng);
         if (bools == null) {
             return null;
@@ -89,6 +87,7 @@ public class DeviceUtils {
         }
         return sb.toString();
     }
+
     /**
      * @param lat
      * @param lng
@@ -96,14 +95,14 @@ public class DeviceUtils {
      * @Author:lulei
      * @Description: 获取坐标的geo二进制字符串
      */
-    private boolean[] getGeoBinary(double lat, double lng) {
+    public static boolean[] getGeoBinary(double lat, double lng) {
         boolean[] latArray = getHashArray(lat, MINLAT, MAXLAT, latLength);
         boolean[] lngArray = getHashArray(lng, MINLNG, MAXLNG, lngLength);
         return merge(latArray, lngArray);
     }
 
 
-    private boolean[] merge(boolean[] latArray, boolean[] lngArray) {
+    public static boolean[] merge(boolean[] latArray, boolean[] lngArray) {
         if (latArray == null || lngArray == null) {
             return null;
         }
@@ -126,7 +125,7 @@ public class DeviceUtils {
      * @Author:lulei
      * @Description: 将数字转化为geohash二进制字符串
      */
-    private boolean[] getHashArray(double value, double min, double max, int length) {
+    public static boolean[] getHashArray(double value, double min, double max, int length) {
         if (value < min || value > max) {
             return null;
         }
@@ -146,13 +145,14 @@ public class DeviceUtils {
         }
         return result;
     }
+
     /**
      * @param base32
      * @return
      * @Author:lulei
      * @Description: 将五位二进制转化为base32
      */
-    private char getBase32Char(boolean[] base32) {
+    public static char getBase32Char(boolean[] base32) {
         if (base32 == null || base32.length != 5) {
             return ' ';
         }

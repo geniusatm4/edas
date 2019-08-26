@@ -17,11 +17,4 @@ public class EdasApplication {
         SpringApplication.run(EdasApplication.class, args);
 
     }
-
-    @PostConstruct
-    public void test(){
-
-
-    }
-
 }
